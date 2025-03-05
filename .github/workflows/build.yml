@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - test-ci
 
 jobs:
   extract:
@@ -21,8 +22,8 @@ jobs:
     - name: Extract schema
       run: ruby main.rb -e
 
-    - name: Upload schema as artifact
-      uses: actions/upload-artifact@v4
+    - name: Release
+      uses: softprops/action-gh-release@v2
+      if: startsWith(github.ref, 'refs/tags/')
       with:
-        name: RELAX NG compact schema
-        path: atom.rnc
+        files: atom.rnc
