@@ -1,0 +1,27 @@
+name: Extract RELAX NG Schema of Atom Syndication Format
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  extract:
+    container:
+      image: ruby:latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: download RFC document
+      run: ruby main.rb -d
+
+    - name: Extract schema
+      run: ruby main.rb -e
+
+    - name: Upload schema as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: atom.rnc
+        path: atom.rnc
