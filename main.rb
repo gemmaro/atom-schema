@@ -37,11 +37,7 @@ def extract
   File.open(SOURCE_PATH) do |file|
     file.each_line do |line|
       schema << line if line.include?('# -*- rnc -*-') .. line.include?('# EOF')
-    end
-
-    file.rewind
-    file.each_line do |line|
-      license << line if line.include?(license_begin) ... line.include?(license_end)
+      license << line if line.include?(license_begin) .. line.include?(license_end)
     end
   end
 
