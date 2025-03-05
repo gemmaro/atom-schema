@@ -48,16 +48,19 @@ def extract
   header = /Nottingham & Sayre          Standards Track                    \[Page \d+\]\n/
   footer = /RFC 4287                      Atom Format                  December 2005\n/
   schema.gsub!(/\n\n\n#{ header }\n#{ footer }\n/, "")
-
-  schema.gsub!(/^   /, "")
+  unindent(schema)
 
   license.gsub!("#{license_begin}\n\n", "")
   license.gsub!("\n#{license_end}\n", "")
-  license.gsub!(/^   /, "")
+  unindent(license)
 
   schema.sub!(/(?<=Atom Format Specification Version 11\n)/,
               +"\n" << license.gsub(/^/, "# "))
   File.write("atom.rnc", schema)
+end
+
+def unindent(str)
+  str.gsub!(/^   /, "")
 end
 
 parser = OptionParser.new
