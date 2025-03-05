@@ -7,12 +7,13 @@ on:
 
 jobs:
   extract:
+    runs-on: ubuntu-latest
     container:
       image: ruby:latest
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: download RFC document
       run: ruby main.rb -d
@@ -21,7 +22,7 @@ jobs:
       run: ruby main.rb -e
 
     - name: Upload schema as artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
-        name: atom.rnc
+        name: RELAX NG compact schema
         path: atom.rnc
